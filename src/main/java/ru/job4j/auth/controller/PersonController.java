@@ -1,15 +1,12 @@
-package ru.job4j.job4j_auth.controller;
+package ru.job4j.auth.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.job4j_auth.domain.Person;
-import ru.job4j.job4j_auth.repository.PersonRepository;
-import ru.job4j.job4j_auth.service.PersonService;
+import ru.job4j.auth.domain.Person;
+import ru.job4j.auth.service.PersonService;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/person")

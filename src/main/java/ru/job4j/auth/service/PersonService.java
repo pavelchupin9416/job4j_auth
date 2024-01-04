@@ -1,9 +1,8 @@
-package ru.job4j.job4j_auth.service;
+package ru.job4j.auth.service;
 
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.job4j.job4j_auth.domain.Person;
-import ru.job4j.job4j_auth.repository.PersonRepository;
+import ru.job4j.auth.domain.Person;
+import ru.job4j.auth.repository.PersonRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +25,6 @@ public class PersonService {
     }
 
     public List<Person> findAll() {
-        return (List<Person>)personRepository.findAll();
+        return (List<Person>) personRepository.findAll();
     }
 }
