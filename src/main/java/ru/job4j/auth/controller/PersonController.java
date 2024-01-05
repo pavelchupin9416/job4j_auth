@@ -34,22 +34,20 @@ public class PersonController {
     @PostMapping("/")
     public ResponseEntity<Person> create(@RequestBody Person person) {
         return new ResponseEntity<Person>(
-                this.persons.save(person),
-                HttpStatus.CREATED
-        );
+                this.persons.save(person) ? HttpStatus.CREATED : HttpStatus.NOT_IMPLEMENTED);
     }
 
     @PutMapping("/")
     public ResponseEntity<Void> update(@RequestBody Person person) {
-        this.persons.save(person);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(
+                this.persons.update(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable int id) {
         Person person = new Person();
         person.setId(id);
-        this.persons.delete(person);
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(
+                this.persons.delete(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

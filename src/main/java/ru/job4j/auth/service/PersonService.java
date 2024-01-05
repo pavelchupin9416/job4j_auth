@@ -14,17 +14,33 @@ public class PersonService {
     public PersonService(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
-    public Person save(Person person) {
-        return personRepository.save(person);
+
+    public boolean save(Person person) {
+        if (findById(person.getId()).isEmpty()) {
+            personRepository.save(person);
+            return true;
+        }
+        return false;
     }
-    public void delete(Person person) {
+
+    public boolean update(Person person) {
+        if (findById(person.getId()).isPresent()) {
+            personRepository.save(person);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean delete(Person person) {
+        boolean result = personRepository.existsById(person.getId());
         personRepository.delete(person);
+        return result;
     }
     public Optional<Person> findById(int id) {
         return personRepository.findById(id);
     }
 
     public List<Person> findAll() {
-        return (List<Person>) personRepository.findAll();
+        return personRepository.findAll();
     }
 }
