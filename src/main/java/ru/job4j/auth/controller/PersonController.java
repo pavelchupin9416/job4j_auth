@@ -39,27 +39,25 @@ public class PersonController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Person> update(@PathVariable int id) {
+    public ResponseEntity<Person> update(@RequestBody Person person) {
+        return new ResponseEntity<>(
+                this.persons.update(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
 
-        return this.persons.findById(id).map(person -> {
+       /* return this.persons.findById(id).map(person -> {
             this.persons.update(person);
             return ResponseEntity.ok(person);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        }).orElseGet(() -> ResponseEntity.notFound().build());*/
        /* return this.persons.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
         return new ResponseEntity<>(
                 this.persons.update(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);*/
 }
     @DeleteMapping("/{id}")
     public ResponseEntity<Person> delete(@PathVariable int id) {
-        return this.persons.findById(id).map(person -> {
+       /* return this.persons.findById(id).map(person -> {
             this.persons.delete(person);
             return ResponseEntity.ok(person);
-        }).orElseGet(() -> ResponseEntity.notFound().build());
-
-
-       /*Person person = new Person();
-        person.setId(id);
+        }).orElseGet(() -> ResponseEntity.notFound().build());*/
         return new ResponseEntity<>(
-                this.persons.delete(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);*/
+                this.persons.delete(id) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }

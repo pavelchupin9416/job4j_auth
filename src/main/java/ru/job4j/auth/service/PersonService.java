@@ -24,6 +24,8 @@ public class PersonService {
     }
 
     public boolean update(Person person) {
+       /* return personRepository.findById(person.getId()).map(personRepository.save(person) return true;)*/
+
         if (findById(person.getId()).isPresent()) {
             personRepository.save(person);
             return true;
@@ -31,11 +33,14 @@ public class PersonService {
         return false;
     }
 
-    public boolean delete(Person person) {
-        boolean result = personRepository.existsById(person.getId());
-        personRepository.delete(person);
-        return result;
+    public boolean delete(int id) {
+        return findById(id).map(person -> {
+            personRepository.delete(person);
+            return true;
+        }).orElseGet(() -> false
+        );
     }
+
     public Optional<Person> findById(int id) {
         return personRepository.findById(id);
     }
