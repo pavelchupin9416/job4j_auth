@@ -24,13 +24,11 @@ public class PersonService {
     }
 
     public boolean update(Person person) {
-       /* return personRepository.findById(person.getId()).map(personRepository.save(person) return true;)*/
-
-        if (findById(person.getId()).isPresent()) {
-            personRepository.save(person);
-            return true;
-        }
-        return false;
+      return personRepository.findById(person.getId()).map(oldPerson -> {
+          personRepository.save(person);
+          return true;
+      }).orElseGet(() -> false
+      );
     }
 
     public boolean delete(int id) {
