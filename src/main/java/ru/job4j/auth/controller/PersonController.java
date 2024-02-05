@@ -24,11 +24,7 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> findById(@PathVariable int id) {
-        var person = this.persons.findById(id);
-        return new ResponseEntity<Person>(
-                person.orElse(new Person()),
-                person.isPresent() ? HttpStatus.OK : HttpStatus.NOT_FOUND
-        );
+       return this.persons.findById(id).map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/")
@@ -38,16 +34,13 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Void> update(@RequestBody Person person) {
+    public ResponseEntity<Person> update(@RequestBody Person person) {
         return new ResponseEntity<>(
                 this.persons.update(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-    }
-
+}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable int id) {
-        Person person = new Person();
-        person.setId(id);
+    public ResponseEntity<Person> delete(@PathVariable int id) {
         return new ResponseEntity<>(
-                this.persons.delete(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+                this.persons.delete(id) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 }
