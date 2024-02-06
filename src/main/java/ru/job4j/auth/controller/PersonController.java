@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.job4j.auth.domain.Person;
 import ru.job4j.auth.service.PersonService;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -28,19 +29,22 @@ public class PersonController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<Person> create(@RequestBody Person person) {
-        return new ResponseEntity<Person>(
-                this.persons.save(person) ? HttpStatus.CREATED : HttpStatus.NOT_IMPLEMENTED);
+    public ResponseEntity<Boolean> create(@RequestBody Person person) throws SQLException {
+        return this.persons.save(person)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new SQLException("An error occurred while saving data"));
     }
 
     @PutMapping("/")
-    public ResponseEntity<Person> update(@RequestBody Person person) {
-        return new ResponseEntity<>(
-                this.persons.update(person) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
-}
+    public ResponseEntity<Boolean> update(@RequestBody Person person) {
+        return this.persons.update(person)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Person> delete(@PathVariable int id) {
-        return new ResponseEntity<>(
-                this.persons.delete(id) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
+    public ResponseEntity<Boolean> delete(@PathVariable int id) {
+        return this.persons.delete(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 }

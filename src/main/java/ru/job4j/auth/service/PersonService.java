@@ -15,27 +15,27 @@ public class PersonService {
         this.personRepository = personRepository;
     }
 
-    public boolean save(Person person) {
+    public Optional<Boolean> save(Person person) {
         if (findById(person.getId()).isEmpty()) {
             personRepository.save(person);
-            return true;
+            return Optional.of(true);
         }
-        return false;
+        return Optional.of(false);
     }
 
-    public boolean update(Person person) {
+    public Optional<Boolean> update(Person person) {
       return personRepository.findById(person.getId()).map(oldPerson -> {
           personRepository.save(person);
-          return true;
-      }).orElseGet(() -> false
+          return Optional.of(true);
+      }).orElseGet(() -> Optional.of(false)
       );
     }
 
-    public boolean delete(int id) {
+    public Optional<Boolean> delete(int id) {
         return findById(id).map(person -> {
             personRepository.delete(person);
-            return true;
-        }).orElseGet(() -> false
+            return Optional.of(true);
+        }).orElseGet(() -> Optional.of(false)
         );
     }
 
