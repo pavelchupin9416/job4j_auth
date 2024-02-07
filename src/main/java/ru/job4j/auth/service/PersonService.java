@@ -23,19 +23,19 @@ public class PersonService {
         return Optional.of(false);
     }
 
-    public Optional<Boolean> update(Person person) {
+    public boolean update(Person person) {
       return personRepository.findById(person.getId()).map(oldPerson -> {
           personRepository.save(person);
-          return Optional.of(true);
-      }).orElseGet(() -> Optional.of(false)
+          return true;
+      }).orElseGet(() -> false
       );
     }
 
-    public Optional<Boolean> delete(int id) {
+    public boolean delete(int id) {
         return findById(id).map(person -> {
             personRepository.delete(person);
-            return Optional.of(true);
-        }).orElseGet(() -> Optional.of(false)
+            return true;
+        }).orElseGet(() -> false
         );
     }
 

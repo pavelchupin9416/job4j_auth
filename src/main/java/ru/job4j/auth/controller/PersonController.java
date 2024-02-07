@@ -36,15 +36,18 @@ public class PersonController {
     }
 
     @PutMapping("/")
-    public ResponseEntity<Boolean> update(@RequestBody Person person) {
-        return this.persons.update(person)
-                .map(ResponseEntity::ok)
-                .orElseGet(ResponseEntity.notFound()::build);
+    public ResponseEntity<Void> update(@RequestBody Person person) {
+        if (this.persons.update(person)) {
+            return  ResponseEntity.ok().build();
+        }
+        return  ResponseEntity.notFound().build();
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable int id) {
-        return this.persons.delete(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(ResponseEntity.notFound()::build);
+    public ResponseEntity<Void> delete(@PathVariable int id) {
+        if (this.persons.delete(id)) {
+            return  ResponseEntity.ok().build();
+        }
+        return  ResponseEntity.notFound().build();
     }
 }
