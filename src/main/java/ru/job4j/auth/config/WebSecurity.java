@@ -11,16 +11,19 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.context.annotation.Bean;
+import ru.job4j.auth.filter.JWTAuthenticationFilter;
+import ru.job4j.auth.filter.JWTAuthorizationFilter;
+import ru.job4j.auth.service.PersonService;
 
-import static ru.job4j.url.JWTAuthenticationFilter.SIGN_UP_URL;
+import static ru.job4j.auth.filter.JWTAuthenticationFilter.SIGN_UP_URL;
 
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-    private UserDetailsServiceImpl userDetailsService;
+    private PersonService userDetailsService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public WebSecurity(UserDetailsServiceImpl userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public WebSecurity(PersonService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userDetailsService = userDetailsService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
