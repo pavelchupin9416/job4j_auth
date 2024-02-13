@@ -21,12 +21,6 @@ public class PersonController {
         this.encoder = encoder;
     }
 
-    @PostMapping("/sign-up")
-    public void signUp(@RequestBody Person person) {
-        person.setPassword(encoder.encode(person.getPassword()));
-        persons.save(person);
-    }
-
     @GetMapping("/")
     public List<Person> findAll() {
         return this.persons.findAll();
@@ -39,6 +33,7 @@ public class PersonController {
 
     @PostMapping("/")
     public ResponseEntity<Boolean> create(@RequestBody Person person) throws SQLException {
+        person.setPassword(encoder.encode(person.getPassword()));
         return this.persons.save(person)
                 .map(ResponseEntity::ok)
                 .orElseThrow(() -> new SQLException("An error occurred while saving data"));
